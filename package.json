@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "tw:build": "tailwindcss build -i ./public/css/tailwind.css -o ./public/css/main.css",
+    "build": "npm run tw:build",
     "start": "node server.cjs"
   },
   
