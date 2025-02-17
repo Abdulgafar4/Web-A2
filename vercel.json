@@ -21,8 +21,5 @@
       "src": "/(.*)",
       "dest": "server.cjs"
     }
-  ],
-  "scripts": {
-    "build": "npm run build"
-  }
+  ]
 }
