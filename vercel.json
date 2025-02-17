@@ -4,10 +4,16 @@
     {
       "src": "server.cjs",
       "use": "@vercel/node",
-      "config": { "includeFiles": ["dist/**"] }
+      "config": { 
+        "includeFiles": ["dist/**", "public/**", "styles/**"] 
+      }
     }
   ],
   "routes": [
+    {
+      "src": "/dist/(.*)",
+      "dest": "/dist/$1"
+    },
     {
       "src": "/(.*)",
       "dest": "server.cjs"
