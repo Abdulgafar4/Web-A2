@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dim">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Solutions</title>
+    <link href="/css/main.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-base-100">
+    <div class="navbar bg-base-200">
+        <div class="navbar-start">
+            <a href="/" class="text-xl font-semibold">Climate Solutions</a>
+        </div>
+        <div class="navbar-end">
+            <a href="/about" class="btn btn-ghost">About</a>
+            <div class="dropdown dropdown-end">
+                <label tabindex="0" class="btn btn-ghost m-1">Sector</label>
+                <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52">
+                    <li><a href="/solutions/projects?sector=industry">Industry</a></li>
+                    <li><a href="/solutions/projects?sector=transport">Transport</a></li>
+                    <li><a href="/solutions/projects?sector=electricity">Electricity</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4">
+        <div class="hero min-h-[200px] bg-base-200 rounded-box my-8">
+            <div class="hero-content text-center">
+                <div class="max-w-md">
+                    <h1 class="text-5xl font-bold mb-4">404</h1>
+                    <p class="text-lg">I did not implement what you're looking for, sorry about that.
+                        <span class="text-md mt-4" id="current-time"></span>
+
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function updateDateTime() {
+                const currentDate = new Date();
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true };
+                document.getElementById('current-time').textContent = `${currentDate.toLocaleString('en-US', options)}`;
+            }
+            
+            updateDateTime();
+            setInterval(updateDateTime, 1000); 
+        </script>
+</body>
+</html>

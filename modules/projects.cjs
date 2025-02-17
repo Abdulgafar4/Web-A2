@@ -31,11 +31,14 @@ function getProjectById(projectId) {
 
 function getProjectsBySector(sector) {
   return new Promise((resolve, reject) => {
-    const matchingProjects = projects.filter((p) =>
-      p.sector.toLowerCase().includes(sector.toLowerCase())
-    );
-    if (matchingProjects.length > 0) resolve(matchingProjects);
-    else reject("No projects found for the given sector");
+      const matchingProjects = projects.filter((p) => 
+          p.sector.toLowerCase() === sector.toLowerCase()
+      );
+      if (matchingProjects.length > 0) {
+          resolve(matchingProjects);
+      } else {
+          reject(`No projects found for the sector: ${sector}`);
+      }
   });
 }
 

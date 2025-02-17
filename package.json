@@ -1,1 +1,23 @@
-{ "dependencies": { "express": "^4.21.2" } }
+{
+  "name": "assignment3",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "tw:build": "tailwindcss build -i ./public/css/tailwind.css -o ./public/css/main.css",
+    "start": "node server.cjs"
+  },
+  
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.16",
+    "@types/bun": "latest",
+    "daisyui": "4",
+    "tailwindcss": "3"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
