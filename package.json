@@ -1,10 +1,9 @@
 {
   "name": "assignment3",
   "module": "index.ts",
-  "type": "module",
   "scripts": {
     "tw:build": "tailwindcss build -i ./public/css/tailwind.css -o ./public/css/main.css",
-    "start": "node server.cjs"
+    "start": "node server.js"
   },
   
   "dependencies": {
