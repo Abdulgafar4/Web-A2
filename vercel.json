@@ -3,17 +3,12 @@
   "builds": [
     {
       "src": "public/css/tailwind.css",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "public/css"
-      }
+      "use": "@vercel/static"
     },
     {
       "src": "server.cjs",
       "use": "@vercel/node",
-      "config": {
-        "includeFiles": ["dist/**"]
-      }
+      "config": { "includeFiles": ["dist/**"] }
     }
   ],
   "routes": [
