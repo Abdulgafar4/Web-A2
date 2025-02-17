@@ -2,10 +2,6 @@
   "version": 2,
   "builds": [
     {
-      "src": "public/css/tailwind.css",
-      "use": "@vercel/static"
-    },
-    {
       "src": "server.cjs",
       "use": "@vercel/node",
       "config": { "includeFiles": ["dist/**"] }
