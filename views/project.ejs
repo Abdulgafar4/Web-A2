@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dim">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= project.title %> - Climate Solutions</title>
+    <link href="/css/main.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-base-100">
+    <%- include('partials/navbar', {page: ''}) %>
+
+    <div class="container mx-auto px-4 mt-24">
+        <div class="hero min-h-[200px] bg-base-200 rounded-box my-8">
+            <div class="hero-content text-center">
+                <div class="max-w-md">
+                    <h1 class="text-2xl font-bold mb-4"><%= project.title %></h1>
+                    <p class="text-lg">Below, you will find detailed information about the project: <%= project.title %></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div class="w-full">
+                <img src="<%= project.feature_img_url %>" alt="<%= project.title %>" class="w-full rounded-lg shadow-lg">
+            </div>
+
+            <div class="prose max-w-none">
+                <h2 class="text-2xl font-bold">Project Details</h2>
+                <p><%= project.intro_short %></p>
+                
+                <h3 class="text-xl font-semibold mt-6">Impact</h3>
+                <p><%= project.impact %></p>
+                
+                <div class="mt-4">
+                    <a href="<%= project.original_source_url %>" target="_blank" class="btn btn-primary">Learn More</a>
+                </div>
+                
+                <div class="card bg-base-200 p-4 mt-6" id="random-quote">
+                    <h3 class="text-lg font-semibold">Random Quote</h3>
+                    <p id="quote-text">Loading...</p>
+                    <p id="quote-author" class="text-right italic"></p>
+                </div>
+                
+                <a href="#" onclick="history.back(); return false;" class="btn btn-primary mt-6">Return</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch("https://dummyjson.com/quotes/random")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("quote-text").textContent = `"${data.quote}"`;
+                    document.getElementById("quote-author").textContent = `— ${data.author}`;
+                })
+                .catch(error => {
+                    document.getElementById("quote-text").textContent = "Failed to load quote";
+                    console.error("Error fetching quote:", error);
+                });
+        });
+    </script>
+</body>
+</html>

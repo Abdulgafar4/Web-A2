@@ -7,25 +7,9 @@
     <link href="/css/main.css" rel="stylesheet">
 </head>
 <body class="min-h-screen bg-base-100">
-    <div class="navbar bg-base-200">
-        <div class="navbar-start">
-            <a href="/" class="text-xl font-semibold">Climate Solutions</a>
-        </div>
-        <div class="navbar-end">
-            <a href="/about" class="btn btn-ghost">About</a>
-            <div class="dropdown dropdown-end">
-                <label tabindex="0" class="btn btn-ghost m-1">Sector</label>
-                <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52">
-                    <li><a href="/solutions/projects?sector=industry">Industry</a></li>
-                    <li><a href="/solutions/projects?sector=transportation">Transportation</a></li>
-                    <li><a href="/solutions/projects?sector=electricity">Electricity</a></li>
+    <%- include('partials/navbar', {page: '/about'}) %>
 
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-4 mt-24">
         <div class="hero min-h-[200px] bg-base-200 rounded-box my-8">
             <div class="hero-content text-center">
                 <div class="max-w-md">
@@ -48,7 +32,7 @@
             
             <div class="prose max-w-none mx-auto p-6">
                 <h2 class="text-3xl font-extrabold mb-6 ">
-                    My name is Abdulgafar Tajudeen, and I'm currently studying at Seneca Polytechnic.
+                    My name is <%= studentName %>, and I'm currently studying at Seneca Polytechnic.
                 </h2>
                 <p class="text-lg leading-relaxed mb-6">
                     I am a <span class="font-semibold ">Frontend Developer</span> with over 

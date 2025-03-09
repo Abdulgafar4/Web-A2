@@ -7,33 +7,17 @@
     <link href="/css/main.css" rel="stylesheet">
 </head>
 <body class="min-h-screen bg-base-100">
-    <div class="navbar bg-base-200">
-        <div class="navbar-start">
-            <a href="/" class="text-xl font-semibold">Climate Solutions</a>
-        </div>
-        <div class="navbar-end">
-            <a href="/about" class="btn btn-ghost">About</a>
-            <div class="dropdown dropdown-end">
-                <label tabindex="0" class="btn btn-ghost m-1">Sector</label>
-                <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52">
-                    <li><a href="/solutions/projects?sector=industry">Industry</a></li>
-                    <li><a href="/solutions/projects?sector=transportation">Transportation</a></li>
-                    <li><a href="/solutions/projects?sector=electricity">Electricity</a></li>
+    <%- include('partials/navbar', {page: ''}) %>
 
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-4 mt-24">
         <div class="hero min-h-[200px] bg-base-200 rounded-box my-8">
             <div class="hero-content text-center">
                 <div class="max-w-md">
                     <h1 class="text-5xl font-bold mb-4">404</h1>
-                    <p class="text-lg">I did not implement what you're looking for, sorry about that.
+                    <p class="text-lg"><%= message %>
                         <span class="text-md mt-4" id="current-time"></span>
-
                     </p>
+                    <p class="text-md mt-4"><%= studentName %> - <%= studentId %></p>
                 </div>
             </div>
         </div>
@@ -48,5 +32,6 @@
             updateDateTime();
             setInterval(updateDateTime, 1000); 
         </script>
+    </div>
 </body>
 </html>

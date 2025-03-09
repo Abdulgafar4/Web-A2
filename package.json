@@ -2,14 +2,18 @@
   "name": "assignment3",
   "module": "index.ts",
   "scripts": {
-    "tw:build": "tailwindcss build -i ./public/css/tailwind.css -o ./public/css/main.css",
-    "start": "node server.js"
+    "tw:build": "tailwindcss build -i ./public/css/tailwind.css -o ./public/css/main.css --watch",
+    "test": "jest",
+    "start": "node server.js",
+    "dev": "concurrently \"nodemon server.js\" \"npm run tw:build\""
   },
-  
   "dependencies": {
-    "express": "^4.21.2"
+    "concurrently": "^9.1.2",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.9"
   },
-
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.16",
     "@types/bun": "latest",

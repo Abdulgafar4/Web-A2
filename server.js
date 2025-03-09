@@ -1,31 +1,46 @@
 /********************************************************************************
- *  WEB322 – Assignment 03
+ *  WEB322 – Assignment 04
  *
  *  I declare that this assignment is my own work in accordance with Seneca's
  *  Academic Integrity Policy:
  *
  *  https://www.senecapolytechnic.ca/about/policies/academic-integrity-policy.html
  *
- *  Name: Abdulgafar Tajudeen
- *  Student ID: 145039228
- *  Date: 2025-02-16
+ *  Name: Abdulgafar Tajudeen 
+ * Student ID: 145039228 
+ * Date: 2025-03-09
+ *
+ *  
  *
  ********************************************************************************/
 
 const express = require("express");
 const projectData = require("./modules/projects.js");
+const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(express.static('public'));
 
+// Set the view engine to ejs
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/views/home.html");
+  res.render("home", {
+    studentName: "Abdulgafar Tajudeen",
+    studentId: "145039228",
+    timestamp: new Date()
+  });
 });
 
 app.get("/about", (req, res) => {
-  res.sendFile(__dirname + "/views/about.html");
+  res.render("about", {
+    studentName: "Abdulgafar Tajudeen",
+    studentId: "145039228",
+    timestamp: new Date()
+  });
 });
 
 app.get("/solutions/projects", async (req, res) => {
@@ -36,14 +51,14 @@ app.get("/solutions/projects", async (req, res) => {
         } else {
             projects = await projectData.getAllProjects();
         }
-        res.json({
+        res.render("projects", {
             studentName: "Abdulgafar Tajudeen",
             studentId: "145039228",
             timestamp: new Date(),
-            projects,
+            projects
         });
     } catch (err) {
-        res.status(404).json({
+        res.status(404).render("404", {
             message: err,
             studentName: "Abdulgafar Tajudeen",
             studentId: "145039228",
@@ -55,14 +70,14 @@ app.get("/solutions/projects", async (req, res) => {
 app.get("/solutions/projects/:id", async (req, res) => {
     try {
         const project = await projectData.getProjectById(parseInt(req.params.id));
-        res.json({
+        res.render("project", {
             studentName: "Abdulgafar Tajudeen",
             studentId: "145039228",
             timestamp: new Date(),
-            project,
+            project
         });
     } catch (err) {
-        res.status(404).json({
+        res.status(404).render("404", {
             message: err,
             studentName: "Abdulgafar Tajudeen",
             studentId: "145039228",
@@ -81,7 +96,12 @@ app.post("/post-request", (req, res) => {
 });
 
 app.use((req, res) => {
-  res.status(404).sendFile(__dirname + "/views/404.html");
+  res.status(404).render("404", {
+    message: "I'm sorry, we're unable to find what you're looking for",
+    studentName: "Abdulgafar Tajudeen",
+    studentId: "145039228",
+    timestamp: new Date()
+  });
 });
 
 

@@ -1,0 +1,9 @@
+<div class="navbar bg-base-200 fixed z-50 top-0">
+    <div class="navbar-start">
+        <a href="/" class="text-md font-bold hover:bg-gray-500 px-2 py-1 rounded">Climate Solutions - <%= studentName %> <%= studentId %> - Deployed at - 3/9/2025 8:46:00 PM</a>
+    </div>
+    <div class="navbar-end gap-6 mr-2">
+        <a class="<%= (page == '/solutions/projects') ? 'active shadow-md px-2 py-1 rounded bg-gray-500' : '' %>" href="/solutions/projects">View Projects</a>
+        <a class="<%= (page == '/about') ? 'active shadow-md px-2 py-1 rounded bg-gray-500' : '' %>" href="/about">About</a>
+    </div>
+</div>
