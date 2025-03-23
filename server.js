@@ -108,7 +108,11 @@ app.get("/solutions/addProject", async (req, res) => {
 // Add project - POST route
 app.post("/solutions/addProject", async (req, res) => {
     try {
-        await projectData.addProject(req.body);
+         const data = {
+          id: 100,
+          ...req.body
+         }
+        await projectData.addProject(data);
         res.redirect("/solutions/projects");
     } catch (err) {
         res.render("500", {
