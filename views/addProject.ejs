@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Project</title>
+    <link href="/css/output.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    <%- include('partials/navbar', {page: '/solutions/addProject' }) %>
+    
+    <div class="container mx-auto px-4 py-8 flex-grow">
+        <div class="bg-white rounded-lg shadow-md p-6 max-w-4xl mx-auto">
+            <h1 class="text-3xl font-bold mb-6">Add Project</h1>
+            
+            <form action="/solutions/addProject" method="POST" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="title" class="block font-medium mb-1">Project Title</label>
+                        <input type="text" id="title" name="title" required 
+                            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label for="feature_img_url" class="block font-medium mb-1">Feature Image URL</label>
+                        <input type="url" id="feature_img_url" name="feature_img_url" required 
+                            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label for="sector_id" class="block font-medium mb-1">Sector</label>
+                        <select id="sector_id" name="sector_id" required 
+                            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <% sectors.forEach(sector => { %>
+                                <option value="<%= sector.id %>"><%= sector.sector_name %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="original_source_url" class="block font-medium mb-1">Original Source URL</label>
+                        <input type="url" id="original_source_url" name="original_source_url" required 
+                            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="intro_short" class="block font-medium mb-1">Short Introduction</label>
+                    <textarea id="intro_short" name="intro_short" rows="3" required 
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+                
+                <div>
+                    <label for="summary_short" class="block font-medium mb-1">Short Summary</label>
+                    <textarea id="summary_short" name="summary_short" rows="3" required 
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+                
+                <div>
+                    <label for="impact" class="block font-medium mb-1">Impact</label>
+                    <textarea id="impact" name="impact" rows="5" required 
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+                
+                <div>
+                    <button type="submit" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-600 transition-colors">
+                        Add Project
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="bg-gray-800 text-white py-8 mt-auto">
+        <div class="container mx-auto px-4 text-center">
+            <p>Student Name: <%= studentName %> | Student ID: <%= studentId %></p>
+            <p>Last Updated: <%= timestamp.toLocaleString() %></p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,16 +1,14 @@
 /********************************************************************************
- *  WEB322 – Assignment 04
+ * WEB322 -- Assignment 05
  *
- *  I declare that this assignment is my own work in accordance with Seneca's
- *  Academic Integrity Policy:
+ * I declare that this assignment is my own work in accordance with Seneca's
+ * Academic Integrity Policy:
  *
- *  https://www.senecapolytechnic.ca/about/policies/academic-integrity-policy.html
+ * https://www.senecacollege.ca/about/policies/academic-integrity-policy.html
  *
- *  Name: Abdulgafar Tajudeen 
- * Student ID: 145039228 
- * Date: 2025-03-09
+ * Name: Abdulgafar Tajudeen Student ID: 145039228 Date: 2025-03-23
  *
- *  
+ * Published URL: _________________________________________________________
  *
  ********************************************************************************/
 
@@ -22,6 +20,7 @@ const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(express.static('public'));
+app.use(express.urlencoded({extended: true})); // Added middleware for form data
 
 // Set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -51,6 +50,7 @@ app.get("/solutions/projects", async (req, res) => {
         } else {
             projects = await projectData.getAllProjects();
         }
+        console.log(projects)
         res.render("projects", {
             studentName: "Abdulgafar Tajudeen",
             studentId: "145039228",
@@ -79,6 +79,94 @@ app.get("/solutions/projects/:id", async (req, res) => {
     } catch (err) {
         res.status(404).render("404", {
             message: err,
+            studentName: "Abdulgafar Tajudeen",
+            studentId: "145039228",
+            timestamp: new Date()
+        });
+    }
+});
+
+// Add project - GET route
+app.get("/solutions/addProject", async (req, res) => {
+    try {
+        const sectorData = await projectData.getAllSectors();
+        res.render("addProject", {
+            studentName: "Abdulgafar Tajudeen",
+            studentId: "145039228",
+            timestamp: new Date(),
+            sectors: sectorData
+        });
+    } catch (err) {
+        res.render("500", {
+            message: `I'm sorry, but we have encountered the following error: ${err}`,
+            studentName: "Abdulgafar Tajudeen",
+            studentId: "145039228",
+            timestamp: new Date()
+        });
+    }
+});
+
+// Add project - POST route
+app.post("/solutions/addProject", async (req, res) => {
+    try {
+        await projectData.addProject(req.body);
+        res.redirect("/solutions/projects");
+    } catch (err) {
+        res.render("500", {
+            message: `I'm sorry, but we have encountered the following error: ${err}`,
+            studentName: "Abdulgafar Tajudeen",
+            studentId: "145039228",
+            timestamp: new Date()
+        });
+    }
+});
+
+// Edit project - GET route
+app.get("/solutions/editProject/:id", async (req, res) => {
+    try {
+        const projectDataItem = await projectData.getProjectById(parseInt(req.params.id));
+        const sectorData = await projectData.getAllSectors();
+        
+        res.render("editProject", {
+            studentName: "Abdulgafar Tajudeen",
+            studentId: "145039228",
+            timestamp: new Date(),
+            sectors: sectorData,
+            project: projectDataItem
+        });
+    } catch (err) {
+        res.status(404).render("404", {
+            message: err,
+            studentName: "Abdulgafar Tajudeen",
+            studentId: "145039228",
+            timestamp: new Date()
+        });
+    }
+});
+
+// Edit project - POST route
+app.post("/solutions/editProject", async (req, res) => {
+    try {
+        await projectData.editProject(req.body.id, req.body);
+        res.redirect("/solutions/projects");
+    } catch (err) {
+        res.render("500", {
+            message: `I'm sorry, but we have encountered the following error: ${err}`,
+            studentName: "Abdulgafar Tajudeen",
+            studentId: "145039228",
+            timestamp: new Date()
+        });
+    }
+});
+
+// Delete project - GET route
+app.get("/solutions/deleteProject/:id", async (req, res) => {
+    try {
+        await projectData.deleteProject(req.params.id);
+        res.redirect("/solutions/projects");
+    } catch (err) {
+        res.render("500", {
+            message: `I'm sorry, but we have encountered the following error: ${err}`,
             studentName: "Abdulgafar Tajudeen",
             studentId: "145039228",
             timestamp: new Date()
