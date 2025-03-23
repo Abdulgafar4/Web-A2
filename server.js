@@ -50,7 +50,6 @@ app.get("/solutions/projects", async (req, res) => {
         } else {
             projects = await projectData.getAllProjects();
         }
-        console.log(projects)
         res.render("projects", {
             studentName: "Abdulgafar Tajudeen",
             studentId: "145039228",

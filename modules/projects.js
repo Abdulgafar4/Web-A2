@@ -41,13 +41,13 @@ const Project = sequelize.define('Project', {
   summary_short: Sequelize.TEXT,
   intro_short: Sequelize.TEXT,
   impact: Sequelize.TEXT,
-  original_source_url: Sequelize.STRING
+  original_source_url: Sequelize.STRING,
 }, {
   timestamps: false
 });
 
 // Establish relationship between Project and Sector
-Project.belongsTo(Sector, { foreignKey: 'sector_id' });
+Project.belongsTo(Sector, { foreignKey: 'sector_id'});
 
 // Initialize function to sync with database
 function initialize() {
