@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(express.static('public'));
-app.use(express.urlencoded({extended: true})); // Added middleware for form data
+app.use(express.urlencoded({extended: true})); 
 
 // Set up client-sessions
 app.use(clientSessions({
@@ -322,14 +322,27 @@ app.use((req, res) => {
   });
 });
 
-projectData
-  .initialize()
-  .then(authData.initialize)
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server listening on port http://localhost:${PORT}`);
+
+function startServer() {
+  return projectData
+    .initialize()
+    .then(authData.initialize)
+    .then(() => {
+      if (process.env.NODE_ENV !== 'production') {
+        app.listen(PORT, () => {
+          console.log(`Server listening on port http://localhost:${PORT}`);
+        });
+      }
+      return app;
+    })
+    .catch((err) => {
+      console.error("Unable to start server:", err);
+      throw err;
     });
-  })
-  .catch((err) => {
-    console.error("Unable to start server:", err);
-  });
+}
+
+if (process.env.NODE_ENV !== 'production') {
+  startServer();
+}
+
+module.exports = startServer();
