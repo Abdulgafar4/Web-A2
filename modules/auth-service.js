@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 let Schema = mongoose.Schema;
+let User;
 
 let userSchema = new Schema({
     userName: {
@@ -19,16 +20,36 @@ let userSchema = new Schema({
     ]
 });
 
-let User; // to be defined on new connection (see initialize)
+// Prevent multiple connection attempts
+let connection = null;
 
 function initialize() {
     return new Promise(function (resolve, reject) {
-        let db = mongoose.createConnection(process.env.MONGODB);
-        db.on('error', (err) => {
-            reject(err); // reject the promise with the provided error
+        // If connection already exists or is in progress
+        if (User) {
+            return resolve();
+        }
+        
+        // Mongoose connection options for serverless
+        const options = {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds
+            bufferCommands: false // Disable command buffering
+        };
+
+        if (connection) return resolve();
+
+        // Connect to MongoDB
+        connection = mongoose.createConnection(process.env.MONGODB, options);
+        
+        connection.on('error', (err) => {
+            console.error('MongoDB connection error:', err);
+            reject(err);
         });
-        db.once('open', () => {
-            User = db.model("users", userSchema);
+        
+        connection.once('open', () => {
+            User = connection.model("users", userSchema);
             resolve();
         });
     });

@@ -20,13 +20,13 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Track database initialization
-let dbInitialized = false;
-let initializationPromise = null;
+// Track initialization state
+let isProjectInitialized = false;
+let isAuthInitialized = false;
 
 app.use(express.json());
 app.use(express.static('public'));
-app.use(express.urlencoded({extended: true})); // Added middleware for form data
+app.use(express.urlencoded({extended: true}));
 
 // Set up client-sessions
 app.use(clientSessions({
@@ -42,29 +42,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Middleware to ensure DB is initialized for every request
-app.use(async (req, res, next) => {
-  try {
-    if (!dbInitialized) {
-      if (!initializationPromise) {
-        // Start initialization if it hasn't been started yet
-        initializationPromise = projectData.initialize()
-          .then(() => authData.initialize())
-          .then(() => {
-            dbInitialized = true;
-            console.log("Database initialized successfully");
-          });
-      }
-      // Wait for initialization to complete
-      await initializationPromise;
-    }
-    next();
-  } catch (err) {
-    console.error("Failed to initialize database:", err);
-    res.status(500).send("Server initialization error. Please try again later.");
-  }
-});
-
 // Helper middleware function to check if user is logged in
 function ensureLogin(req, res, next) {
   if (!req.session.user) {
@@ -77,6 +54,42 @@ function ensureLogin(req, res, next) {
 // Set the view engine to ejs
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
+
+// Middleware to initialize databases on demand
+async function initializeIfNeeded(req, res, next) {
+  try {
+    // Only initialize if not already done
+    if (!isProjectInitialized) {
+      try {
+        await projectData.initialize();
+        isProjectInitialized = true;
+        console.log("Project data initialized");
+      } catch (err) {
+        console.error("Project data initialization error:", err);
+      }
+    }
+    
+    // Only auth routes need auth initialization
+    const authRoutes = ['/register', '/login', '/userHistory', '/logout'];
+    if (!isAuthInitialized && (authRoutes.includes(req.path) || req.path.startsWith('/solutions/'))) {
+      try {
+        await authData.initialize();
+        isAuthInitialized = true;
+        console.log("Auth data initialized");
+      } catch (err) {
+        console.error("Auth data initialization error:", err);
+      }
+    }
+    
+    next();
+  } catch (err) {
+    console.error("Initialization error:", err);
+    res.status(500).send("Server initialization error. Please try again later.");
+  }
+}
+
+// Apply the initialization middleware to all routes
+app.use(initializeIfNeeded);
 
 app.get("/", (req, res) => {
   res.render("home", {
@@ -351,7 +364,7 @@ app.use((req, res) => {
 
 // Start server for local development
 if (process.env.NODE_ENV !== 'production') {
-  const server = app.listen(PORT, () => {
+  app.listen(PORT, () => {
     console.log(`Server listening on port http://localhost:${PORT}`);
   });
 }
