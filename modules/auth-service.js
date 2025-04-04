@@ -64,7 +64,7 @@ function registerUser(userData) {
         }
 
         // Hash the password
-        bcrypt.hash(userData.password, 6)
+        bcrypt.hash(userData.password, 10)
             .then(hash => {
                 // Store the hashed password
                 userData.password = hash;
