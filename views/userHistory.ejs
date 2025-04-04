@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dim">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User History - Climate Solutions</title>
+    <link href="/css/main.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-base-100">
+    <%- include('partials/navbar', {page: '/userHistory'}) %>
+
+    <div class="container mx-auto px-4 mt-24">
+        <div class="hero min-h-[200px] bg-base-200 rounded-box my-8">
+            <div class="hero-content text-center">
+                <div class="max-w-md">
+                    <h1 class="text-5xl font-bold mb-4">User History</h1>
+                    <p class="text-lg mb-4">Username: <%= session.user.userName %></p>
+                    <p class="text-lg mb-4">Email: <%= session.user.email %></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto bg-base-200 rounded-lg shadow-md p-6 mb-16">
+            <h2 class="text-2xl font-bold mb-6">Login History</h2>
+            <table class="table table-zebra w-full">
+                <thead>
+                    <tr>
+                        <th>Login Date/Time</th>
+                        <th>Client Information</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% session.user.loginHistory.forEach(login => { %>
+                        <tr>
+                            <td><%= login.dateTime %></td>
+                            <td><%= login.userAgent %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer class="bg-gray-800 text-white py-8 mt-auto">
+        <div class="container mx-auto px-4 text-center">
+            <p>Student Name: <%= studentName %> | Student ID: <%= studentId %></p>
+            <p>Last Updated: <%= timestamp.toLocaleString() %></p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -2,10 +2,27 @@
     <div class="navbar-start">
         <a href="/" class="text-md font-bold hover:bg-gray-500 px-2 py-1 rounded">Climate Solutions - <%= studentName %> <%= studentId %> - Deployed at - 3/9/2025 8:46:00 PM</a>
     </div>
-    <div class="navbar-end gap-6 mr-2">
+    <div class="navbar-end gap-4 mr-2">
         <a class="<%= (page == '/solutions/projects') ? 'active shadow-md px-2 py-1 rounded bg-gray-500' : '' %>" href="/solutions/projects">View Projects</a>
         <a class="<%= (page == '/about') ? 'active shadow-md px-2 py-1 rounded bg-gray-500' : '' %>" href="/about">About</a>
-        <a class="<%= (page == '/solutions/addProject') ? 'active shadow-md px-2 py-1 rounded bg-gray-500' : '' %>" href="/solutions/addProject">Add Project</a>
-
+        
+        <% if(session.user) { %>
+            <details class="dropdown dropdown-end">
+                <summary class="btn m-1">Account: <%= session.user.userName %> ▼</summary>
+                <ul class="menu dropdown-content bg-base-300 rounded-box z-50 w-52 p-2 shadow-sm">
+                    <li class="p-1"><a class="<%= (page == '/solutions/addProject') ? 'bg-gray-500' : '' %>" href="/solutions/addProject">Add Project</a></li>
+                    <li class="p-1"><a class="<%= (page == '/userHistory') ? 'bg-gray-500' : '' %>" href="/userHistory">User History</a></li>
+                    <li class="p-1"><a href="/logout">Log Out</a></li>
+                </ul>
+              </details>
+        <% } else { %>
+            <details class="dropdown dropdown-end">
+                <summary class="btn m-1">Account ▼</summary>
+                <ul class="menu dropdown-content bg-base-300 rounded-box z-50 w-52 p-2 shadow-sm">
+                    <li class="p-1"><a class="<%= (page == '/login') ? 'bg-gray-500' : '' %>" href="/login">Login</a></li>
+                    <li class="p-1"><a class="<%= (page == '/register') ? 'bg-gray-500' : '' %>" href="/register">Register</a></li>
+                </ul>
+              </details>
+        <% } %>
     </div>
 </div>

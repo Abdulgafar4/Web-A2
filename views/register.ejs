@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dim">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Climate Solutions</title>
+    <link href="/css/main.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-base-100">
+    <%- include('partials/navbar', {page: '/register'}) %>
+
+    <div class="container mx-auto px-4 mt-24">
+        <div class="hero min-h-[200px] bg-base-200 rounded-box my-8">
+            <div class="hero-content text-center">
+                <div class="max-w-md">
+                    <h1 class="text-5xl font-bold mb-4">Register</h1>
+                    <p class="text-lg">Create a new account to access and manage climate solutions projects.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-base-200 max-w-md mx-auto shadow-xl p-6 mb-16">
+            <% if (successMessage) { %>
+                <div class="alert">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <span><%= successMessage %></span>
+                </div><br />
+                <a href="/login" class="btn btn-primary">
+                    Proceed to Log in
+                </a>
+            <% } else { %>
+                <form action="/register" method="POST">
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">User Name</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            name="userName" 
+                            placeholder="User Name" 
+                            value="<%= typeof userName !== 'undefined' ? userName : '' %>"
+                            required 
+                            class="input input-bordered w-full"
+                        />
+                    </div>
+                    
+                    <div class="form-control mt-4">
+                        <label class="label">
+                            <span class="label-text">Password</span>
+                        </label>
+                        <input 
+                            type="password" 
+                            name="password" 
+                            placeholder="Password" 
+                            required 
+                            class="input input-bordered w-full"
+                        />
+                    </div>
+                    
+                    <div class="form-control mt-4">
+                        <label class="label">
+                            <span class="label-text">Confirm Password</span>
+                        </label>
+                        <input 
+                            type="password" 
+                            name="password2" 
+                            placeholder="Confirm Password" 
+                            required 
+                            class="input input-bordered w-full"
+                        />
+                    </div>
+                    
+                    <div class="form-control mt-4">
+                        <label class="label">
+                            <span class="label-text">Email Address</span>
+                        </label>
+                        <input 
+                            type="email" 
+                            name="email" 
+                            placeholder="Email Address" 
+                            required 
+                            class="input input-bordered w-full"
+                        />
+                    </div>
+                    
+                    <div class="form-control mt-8">
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
+                </form>
+                
+                <div class="divider mt-8">OR</div>
+                
+                <div class="text-center">
+                    <p>Already have an account?</p>
+                    <a href="/login" class="btn btn-outline mt-2">Log In Now</a>
+                </div>
+                
+                <% if (errorMessage) { %>
+                    <div class="alert alert-error mt-8">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <span><%= errorMessage %></span>
+                    </div>
+                <% } %>
+            <% } %>
+        </div>
+    </div>
+
+    <footer class="bg-gray-800 text-white py-8 mt-auto">
+        <div class="container mx-auto px-4 text-center">
+            <p>Student Name: <%= studentName %> | Student ID: <%= studentId %></p>
+            <p>Last Updated: <%= timestamp.toLocaleString() %></p>
+        </div>
+    </footer>
+</body>
+</html>
