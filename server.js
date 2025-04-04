@@ -20,9 +20,13 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+// Track database initialization
+let dbInitialized = false;
+let initializationPromise = null;
+
 app.use(express.json());
 app.use(express.static('public'));
-app.use(express.urlencoded({extended: true})); 
+app.use(express.urlencoded({extended: true})); // Added middleware for form data
 
 // Set up client-sessions
 app.use(clientSessions({
@@ -36,6 +40,29 @@ app.use(clientSessions({
 app.use((req, res, next) => {
   res.locals.session = req.session;
   next();
+});
+
+// Middleware to ensure DB is initialized for every request
+app.use(async (req, res, next) => {
+  try {
+    if (!dbInitialized) {
+      if (!initializationPromise) {
+        // Start initialization if it hasn't been started yet
+        initializationPromise = projectData.initialize()
+          .then(() => authData.initialize())
+          .then(() => {
+            dbInitialized = true;
+            console.log("Database initialized successfully");
+          });
+      }
+      // Wait for initialization to complete
+      await initializationPromise;
+    }
+    next();
+  } catch (err) {
+    console.error("Failed to initialize database:", err);
+    res.status(500).send("Server initialization error. Please try again later.");
+  }
 });
 
 // Helper middleware function to check if user is logged in
@@ -322,27 +349,12 @@ app.use((req, res) => {
   });
 });
 
-
-function startServer() {
-  return projectData
-    .initialize()
-    .then(authData.initialize)
-    .then(() => {
-      if (process.env.NODE_ENV !== 'production') {
-        app.listen(PORT, () => {
-          console.log(`Server listening on port http://localhost:${PORT}`);
-        });
-      }
-      return app;
-    })
-    .catch((err) => {
-      console.error("Unable to start server:", err);
-      throw err;
-    });
-}
-
+// Start server for local development
 if (process.env.NODE_ENV !== 'production') {
-  startServer();
+  const server = app.listen(PORT, () => {
+    console.log(`Server listening on port http://localhost:${PORT}`);
+  });
 }
 
-module.exports = startServer();
+// Export the Express app for Vercel
+module.exports = app;
