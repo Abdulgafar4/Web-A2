@@ -86,6 +86,7 @@ function registerUser(userData) {
                     });
             })
             .catch(err => {
+                console.error("Bcrypt error:", err);
                 reject("There was an error encrypting the password");
             });
     });
